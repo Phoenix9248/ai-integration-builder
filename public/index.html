@@ -42,14 +42,10 @@
                         </div>
                         <div class="progress-step" data-step="2">
                             <div class="step-number">2</div>
-                            <div class="step-label">AI Analysis</div>
+                            <div class="step-label">AI Processing</div>
                         </div>
                         <div class="progress-step" data-step="3">
                             <div class="step-number">3</div>
-                            <div class="step-label">Generate Code</div>
-                        </div>
-                        <div class="progress-step" data-step="4">
-                            <div class="step-number">4</div>
                             <div class="step-label">Connect</div>
                         </div>
                     </div>
@@ -71,26 +67,16 @@
                         </div>
                     </div>
 
-                    <!-- Step 2: AI Analysis -->
+                    <!-- Step 2: AI Processing -->
                     <div id="step-2" class="step-content hidden">
-                        <div id="analysis-status" class="status-box">
+                        <div id="ai-status" class="status-box">
                             <div class="loader"></div>
-                            <p>AI is reading the API documentation...</p>
+                            <p id="ai-status-text">AI is analyzing the API documentation...</p>
                         </div>
-                        <div id="analysis-result" class="hidden"></div>
                     </div>
 
-                    <!-- Step 3: Code Generation -->
+                    <!-- Step 3: Connect -->
                     <div id="step-3" class="step-content hidden">
-                        <div id="generation-status" class="status-box">
-                            <div class="loader"></div>
-                            <p>Generating integration code...</p>
-                        </div>
-                        <div id="generation-result" class="hidden"></div>
-                    </div>
-
-                    <!-- Step 4: Connect -->
-                    <div id="step-4" class="step-content hidden">
                         <div class="form-group">
                             <label class="form-label">API Key / Access Token</label>
                             <input type="password" id="api-key" class="form-input" placeholder="Enter your API key">
@@ -102,8 +88,8 @@
                         </div>
                     </div>
 
-                    <!-- Step 5: Complete -->
-                    <div id="step-5" class="step-content hidden">
+                    <!-- Step 4: Complete -->
+                    <div id="step-4" class="step-content hidden">
                         <div class="success-box">
                             <div class="success-icon">✓</div>
                             <h3>Integration connected!</h3>
