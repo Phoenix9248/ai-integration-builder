@@ -148,11 +148,110 @@ async function connectIntegration() {
         return;
     }
 
-    // Just accept any API key and show CloudEagle dashboard preview
+    // Save integration and go to dashboard
+    hideAddIntegration();
+    showDashboardWithNewIntegration();
+}
+
+function showDashboardWithNewIntegration() {
+    // Add the new integration to the list
+    const integrationsList = document.getElementById('integrations-list');
+
+    const newIntegrationCard = `
+        <div class="integration-card" id="integration-${currentTool.toolName}" style="border: 2px solid var(--primary); animation: slideIn 0.3s ease-out;">
+            <div class="integration-icon" style="background: var(--accent-bg); color: var(--primary); font-size: 1.5rem;">◆</div>
+            <div class="integration-info">
+                <h3>${currentTool.toolName}</h3>
+                <div class="integration-meta">
+                    <span>🔗 Connected just now</span>
+                    <span style="margin-left: 1rem;">⚙️ Ready to sync</span>
+                </div>
+            </div>
+            <div class="integration-actions">
+                <button class="btn btn-primary" onclick="promptImportData('${currentTool.toolName}')">
+                    Import Data
+                </button>
+                <div class="status-badge" style="background: var(--accent-bg); color: var(--primary);">New</div>
+            </div>
+        </div>
+    `;
+
+    if (integrationsList.innerHTML.includes('No integrations yet')) {
+        integrationsList.innerHTML = newIntegrationCard;
+    } else {
+        integrationsList.insertAdjacentHTML('afterbegin', newIntegrationCard);
+    }
+
+    // Show notification
+    showNotification(`${currentTool.toolName} integration connected! Click "Import Data" to sync users and events.`);
+}
+
+function promptImportData(toolName) {
+    const card = document.getElementById(`integration-${toolName}`);
+
+    // Show loading state
+    card.innerHTML = `
+        <div class="integration-icon" style="background: var(--accent-bg); color: var(--primary);">◆</div>
+        <div class="integration-info">
+            <h3>${toolName}</h3>
+            <div class="integration-meta">
+                <span>🔄 Importing data...</span>
+            </div>
+        </div>
+        <div class="loader" style="width: 30px; height: 30px; border-width: 3px;"></div>
+    `;
+
+    // Simulate data import (2 seconds)
+    setTimeout(() => {
+        card.innerHTML = `
+            <div class="integration-icon" style="background: var(--accent-bg); color: var(--primary);">◆</div>
+            <div class="integration-info">
+                <h3>${toolName}</h3>
+                <div class="integration-meta">
+                    <span>📊 48 users</span>
+                    <span style="margin-left: 1rem;">⏱️ 5 inactive (90+ days)</span>
+                    <span style="margin-left: 1rem;">🔗 Synced</span>
+                </div>
+            </div>
+            <div class="integration-actions">
+                <div class="savings-pill">Save $40/mo</div>
+                <div class="status-badge status-connected">Connected</div>
+            </div>
+        `;
+
+        showNotification(`✓ Successfully imported 48 users and 127 events from ${toolName}`);
+    }, 2000);
+}
+
+function showNotification(message) {
+    const notification = document.createElement('div');
+    notification.style.cssText = `
+        position: fixed;
+        top: 2rem;
+        right: 2rem;
+        background: var(--surface);
+        border: 1px solid var(--primary);
+        border-radius: 12px;
+        padding: 1rem 1.5rem;
+        box-shadow: 0 4px 12px rgba(0,0,0,0.1);
+        z-index: 10000;
+        animation: slideInRight 0.3s ease-out;
+        max-width: 400px;
+    `;
+    notification.textContent = message;
+    document.body.appendChild(notification);
+
+    setTimeout(() => {
+        notification.style.animation = 'slideOutRight 0.3s ease-out';
+        setTimeout(() => notification.remove(), 300);
+    }, 4000);
+}
+
+// Keep the old function for the complete modal step
+function OLD_connectIntegration() {
     currentStep = 4;
     updateStepDisplay();
 
-    // Show CloudEagle-style dashboard with integration preview
     document.getElementById('integration-summary').innerHTML = `
         <div style="text-align: center; margin-bottom: 2rem;">
             <div style="width: 64px; height: 64px; background: linear-gradient(135deg, var(--primary), var(--primary-light)); border-radius: 16px; display: flex; align-items: center; justify-content: center; margin: 0 auto 1rem; font-size: 2rem;">
