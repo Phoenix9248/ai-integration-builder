@@ -22,7 +22,7 @@ function checkHfToken() {
 }
 
 function saveHfToken() {
-    const key = document.getElementById('groq-api-key').value.trim();
+    const key = document.getElementById('hf-token').value.trim();
     if (!key) {
         alert('Please enter your Hugging Face token');
         return;
