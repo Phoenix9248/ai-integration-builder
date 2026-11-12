@@ -4,7 +4,7 @@ AI-powered SaaS integration builder that automatically generates integration cod
 
 ## Features
 
-- 🤖 **AI-Powered**: Uses Groq AI to read and understand API documentation
+- 🤖 **AI-Powered**: Uses Hugging Face AI to read and understand API documentation
 - 🔧 **Auto-Generate**: Automatically generates integration code
 - 🚀 **Self-Serve**: Users can add any integration themselves
 - 📊 **Live Testing**: Tests generated integrations with real APIs
@@ -34,9 +34,10 @@ AI-powered SaaS integration builder that automatically generates integration cod
 
 3. Open browser: http://localhost:3000
 
-4. Enter your Groq API key:
-   - Get a free key at https://console.groq.com/keys
-   - Key is stored in browser only (not on server)
+4. Enter your Hugging Face token:
+   - Get a free token at https://huggingface.co/settings/tokens
+   - 100% free, no credit card required!
+   - Token is stored in browser only (not on server)
    - Required to use AI features
 
 ## Usage
@@ -62,7 +63,7 @@ AI-powered SaaS integration builder that automatically generates integration cod
 ## Tech Stack
 
 - **Backend**: Node.js + Express
-- **AI**: Groq (Llama 3.3 70B)
+- **AI**: Hugging Face (Llama 3.3 70B)
 - **Frontend**: Vanilla JavaScript + CSS
 
 ## Project Structure

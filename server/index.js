@@ -2,7 +2,7 @@ require('dotenv').config();
 const express = require('express');
 const cors = require('cors');
 const path = require('path');
-const { analyzeAPI, generateIntegrationCode } = require('./groq');
+const { analyzeAPI, generateIntegrationCode } = require('./llm');
 const { saveIntegration, getIntegrations, testIntegration } = require('./integrations');
 
 const app = express();
@@ -16,12 +16,12 @@ app.use(express.static('public'));
 app.post('/api/analyze', async (req, res) => {
   try {
     const { toolName, apiDocsUrl } = req.body;
-    const apiKey = req.headers['x-groq-api-key'];
+    const apiKey = req.headers['x-hf-token'];
 
     if (!apiKey) {
       return res.status(401).json({
         success: false,
-        error: 'Groq API key is required. Please provide it in the X-Groq-API-Key header.'
+        error: 'Hugging Face token is required. Please provide it in the X-HF-Token header.'
       });
     }
 
@@ -41,12 +41,12 @@ app.post('/api/analyze', async (req, res) => {
 app.post('/api/generate', async (req, res) => {
   try {
     const { toolName, analysis } = req.body;
-    const apiKey = req.headers['x-groq-api-key'];
+    const apiKey = req.headers['x-hf-token'];
 
     if (!apiKey) {
       return res.status(401).json({
         success: false,
-        error: 'Groq API key is required. Please provide it in the X-Groq-API-Key header.'
+        error: 'Hugging Face token is required. Please provide it in the X-HF-Token header.'
       });
     }
 

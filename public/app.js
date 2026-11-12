@@ -2,16 +2,16 @@ let currentStep = 1;
 let currentTool = {};
 let analysis = null;
 let generatedCode = null;
-let groqApiKey = null;
+let hfToken = null;
 
 // Load on page load
 document.addEventListener('DOMContentLoaded', () => {
-    checkGroqKey();
+    checkHfToken();
 });
 
-function checkGroqKey() {
-    groqApiKey = localStorage.getItem('groqApiKey');
-    if (groqApiKey) {
+function checkHfToken() {
+    hfToken = localStorage.getItem('hfToken');
+    if (hfToken) {
         document.getElementById('setup-section').classList.add('hidden');
         document.getElementById('app-section').classList.remove('hidden');
         loadIntegrations();
@@ -21,27 +21,27 @@ function checkGroqKey() {
     }
 }
 
-function saveGroqKey() {
+function saveHfToken() {
     const key = document.getElementById('groq-api-key').value.trim();
     if (!key) {
-        alert('Please enter your Groq API key');
+        alert('Please enter your Hugging Face token');
         return;
     }
-    if (!key.startsWith('gsk_')) {
-        if (!confirm('Warning: Groq API keys usually start with "gsk_". Are you sure this is correct?')) {
+    if (!key.startsWith('hf_')) {
+        if (!confirm('Warning: Hugging Face tokens usually start with "hf_". Are you sure this is correct?')) {
             return;
         }
     }
-    localStorage.setItem('groqApiKey', key);
-    groqApiKey = key;
-    checkGroqKey();
+    localStorage.setItem('hfToken', key);
+    hfToken = key;
+    checkHfToken();
 }
 
-function clearGroqKey() {
+function clearHfToken() {
     if (confirm('Are you sure you want to remove your API key? You\'ll need to enter it again.')) {
-        localStorage.removeItem('groqApiKey');
-        groqApiKey = null;
-        checkGroqKey();
+        localStorage.removeItem('hfToken');
+        hfToken = null;
+        checkHfToken();
     }
 }
 
@@ -135,7 +135,7 @@ async function analyzeAPI() {
             method: 'POST',
             headers: {
                 'Content-Type': 'application/json',
-                'X-Groq-API-Key': groqApiKey
+                'X-HF-Token': hfToken
             },
             body: JSON.stringify({ toolName, apiDocsUrl })
         });
@@ -183,7 +183,7 @@ async function generateCode() {
             method: 'POST',
             headers: {
                 'Content-Type': 'application/json',
-                'X-Groq-API-Key': groqApiKey
+                'X-HF-Token': hfToken
             },
             body: JSON.stringify({
                 toolName: currentTool.toolName,

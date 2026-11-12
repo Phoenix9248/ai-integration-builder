@@ -19,22 +19,22 @@
 
             <div id="setup-section" class="setup-box">
                 <h3>Setup</h3>
-                <p>To use this prototype, you need a Groq API key (free tier available)</p>
+                <p>To use this prototype, you need a Hugging Face API key (free tier available)</p>
                 <div class="form-group">
-                    <label class="form-label">Your Groq API Key</label>
-                    <input type="password" id="groq-api-key" class="form-input" placeholder="gsk_...">
+                    <label class="form-label">Your Hugging Face API Key</label>
+                    <input type="password" id="hf-token" class="form-input" placeholder="gsk_...">
                     <div class="form-help">
                         Get your free key at <a href="https://console.groq.com/keys" target="_blank">console.groq.com/keys</a>
                         (stored in browser only, not on server)
                     </div>
                 </div>
-                <button class="btn btn-primary" onclick="saveGroqKey()">Save & Continue</button>
+                <button class="btn btn-primary" onclick="saveHugging FaceKey()">Save & Continue</button>
             </div>
 
             <div id="app-section" class="hidden">
                 <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 2rem;">
                     <div></div>
-                    <button class="btn btn-secondary btn-sm" onclick="clearGroqKey()">Change API Key</button>
+                    <button class="btn btn-secondary btn-sm" onclick="clearHugging FaceKey()">Change API Key</button>
                 </div>
                 <div class="cta-section">
                     <button class="btn btn-primary btn-large" onclick="showAddIntegration()">
