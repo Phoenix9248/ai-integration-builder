@@ -16,9 +16,17 @@ app.use(express.static('public'));
 app.post('/api/analyze', async (req, res) => {
   try {
     const { toolName, apiDocsUrl } = req.body;
+    const apiKey = req.headers['x-groq-api-key'];
+
+    if (!apiKey) {
+      return res.status(401).json({
+        success: false,
+        error: 'Groq API key is required. Please provide it in the X-Groq-API-Key header.'
+      });
+    }
 
     console.log(`Analyzing ${toolName} API docs...`);
-    const analysis = await analyzeAPI(toolName, apiDocsUrl);
+    const analysis = await analyzeAPI(toolName, apiDocsUrl, apiKey);
 
     res.json({ success: true, analysis });
   } catch (error) {
@@ -33,9 +41,17 @@ app.post('/api/analyze', async (req, res) => {
 app.post('/api/generate', async (req, res) => {
   try {
     const { toolName, analysis } = req.body;
+    const apiKey = req.headers['x-groq-api-key'];
+
+    if (!apiKey) {
+      return res.status(401).json({
+        success: false,
+        error: 'Groq API key is required. Please provide it in the X-Groq-API-Key header.'
+      });
+    }
 
     console.log(`Generating integration code for ${toolName}...`);
-    const code = await generateIntegrationCode(toolName, analysis);
+    const code = await generateIntegrationCode(toolName, analysis, apiKey);
 
     res.json({ success: true, code });
   } catch (error) {

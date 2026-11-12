@@ -27,18 +27,17 @@ AI-powered SaaS integration builder that automatically generates integration cod
    npm install
    ```
 
-2. Set up environment variables (already done in `.env`):
-   ```
-   GROQ_API_KEY=your_key_here
-   PORT=3000
-   ```
-
-3. Start the server:
+2. Start the server:
    ```bash
    npm start
    ```
 
-4. Open browser: http://localhost:3000
+3. Open browser: http://localhost:3000
+
+4. Enter your Groq API key:
+   - Get a free key at https://console.groq.com/keys
+   - Key is stored in browser only (not on server)
+   - Required to use AI features
 
 ## Usage
 

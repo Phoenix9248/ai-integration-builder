@@ -2,11 +2,48 @@ let currentStep = 1;
 let currentTool = {};
 let analysis = null;
 let generatedCode = null;
+let groqApiKey = null;
 
-// Load integrations on page load
+// Load on page load
 document.addEventListener('DOMContentLoaded', () => {
-    loadIntegrations();
+    checkGroqKey();
 });
+
+function checkGroqKey() {
+    groqApiKey = localStorage.getItem('groqApiKey');
+    if (groqApiKey) {
+        document.getElementById('setup-section').classList.add('hidden');
+        document.getElementById('app-section').classList.remove('hidden');
+        loadIntegrations();
+    } else {
+        document.getElementById('setup-section').classList.remove('hidden');
+        document.getElementById('app-section').classList.add('hidden');
+    }
+}
+
+function saveGroqKey() {
+    const key = document.getElementById('groq-api-key').value.trim();
+    if (!key) {
+        alert('Please enter your Groq API key');
+        return;
+    }
+    if (!key.startsWith('gsk_')) {
+        if (!confirm('Warning: Groq API keys usually start with "gsk_". Are you sure this is correct?')) {
+            return;
+        }
+    }
+    localStorage.setItem('groqApiKey', key);
+    groqApiKey = key;
+    checkGroqKey();
+}
+
+function clearGroqKey() {
+    if (confirm('Are you sure you want to remove your API key? You\'ll need to enter it again.')) {
+        localStorage.removeItem('groqApiKey');
+        groqApiKey = null;
+        checkGroqKey();
+    }
+}
 
 async function loadIntegrations() {
     try {
@@ -96,7 +133,10 @@ async function analyzeAPI() {
     try {
         const response = await fetch('/api/analyze', {
             method: 'POST',
-            headers: { 'Content-Type': 'application/json' },
+            headers: {
+                'Content-Type': 'application/json',
+                'X-Groq-API-Key': groqApiKey
+            },
             body: JSON.stringify({ toolName, apiDocsUrl })
         });
 
@@ -141,7 +181,10 @@ async function generateCode() {
     try {
         const response = await fetch('/api/generate', {
             method: 'POST',
-            headers: { 'Content-Type': 'application/json' },
+            headers: {
+                'Content-Type': 'application/json',
+                'X-Groq-API-Key': groqApiKey
+            },
             body: JSON.stringify({
                 toolName: currentTool.toolName,
                 analysis

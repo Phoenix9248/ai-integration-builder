@@ -1,9 +1,11 @@
 const Groq = require('groq-sdk');
 const axios = require('axios');
 
-const groq = new Groq({
-  apiKey: process.env.GROQ_API_KEY
-});
+function getGroqClient(apiKey) {
+  return new Groq({
+    apiKey: apiKey || process.env.GROQ_API_KEY
+  });
+}
 
 async function fetchAPIDoc(url) {
   try {
@@ -20,8 +22,10 @@ async function fetchAPIDoc(url) {
   }
 }
 
-async function analyzeAPI(toolName, apiDocsUrl) {
+async function analyzeAPI(toolName, apiDocsUrl, apiKey) {
   console.log(`Fetching API docs from: ${apiDocsUrl}`);
+
+  const groq = getGroqClient(apiKey);
 
   let apiDocContent;
   try {
@@ -83,7 +87,9 @@ Extract and return ONLY a JSON object with this exact structure (no markdown, no
   return analysis;
 }
 
-async function generateIntegrationCode(toolName, analysis) {
+async function generateIntegrationCode(toolName, analysis, apiKey) {
+  const groq = getGroqClient(apiKey);
+
   const prompt = `Generate a complete, working JavaScript integration class for ${toolName} based on this API analysis:
 
 ${JSON.stringify(analysis, null, 2)}
