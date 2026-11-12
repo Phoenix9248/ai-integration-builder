@@ -152,20 +152,25 @@ async function connectIntegration() {
         return;
     }
 
-    // Save integration and go to dashboard
-    hideAddIntegration();
-    showDashboardWithNewIntegration();
+    // Save tool info BEFORE hiding modal (which resets it)
+    const toolName = currentTool.toolName;
+    const toolInfo = { ...currentTool };
+
+    // Hide modal
+    document.getElementById('add-modal').classList.add('hidden');
+
+    // Add to dashboard using saved info
+    addIntegrationToDashboard(toolInfo);
 }
 
-function showDashboardWithNewIntegration() {
-    if (!currentTool || !currentTool.toolName) {
+function addIntegrationToDashboard(toolInfo) {
+    if (!toolInfo || !toolInfo.toolName) {
         console.error('No tool info available');
         return;
     }
 
-    // Add the new integration to the list
     const integrationsList = document.getElementById('integrations-list');
-    const toolName = currentTool.toolName;
+    const toolName = toolInfo.toolName;
 
     const newIntegrationCard = `
         <div class="integration-card" id="integration-${toolName}" style="border: 2px solid var(--primary); animation: slideIn 0.3s ease-out;">
@@ -196,8 +201,9 @@ function showDashboardWithNewIntegration() {
     }
 
     // Show notification
-    showNotification(`${currentTool.toolName} integration connected! Click "Import Data" to sync users and events.`);
+    showNotification(`${toolName} integration connected! Click "Import Data" to sync users and events.`);
 }
+
 
 function promptImportData(toolName) {
     const card = document.getElementById(`integration-${toolName}`);
