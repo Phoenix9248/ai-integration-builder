@@ -154,21 +154,27 @@ async function connectIntegration() {
 }
 
 function showDashboardWithNewIntegration() {
+    if (!currentTool || !currentTool.toolName) {
+        console.error('No tool info available');
+        return;
+    }
+
     // Add the new integration to the list
     const integrationsList = document.getElementById('integrations-list');
+    const toolName = currentTool.toolName;
 
     const newIntegrationCard = `
-        <div class="integration-card" id="integration-${currentTool.toolName}" style="border: 2px solid var(--primary); animation: slideIn 0.3s ease-out;">
+        <div class="integration-card" id="integration-${toolName}" style="border: 2px solid var(--primary); animation: slideIn 0.3s ease-out;">
             <div class="integration-icon" style="background: var(--accent-bg); color: var(--primary); font-size: 1.5rem;">◆</div>
             <div class="integration-info">
-                <h3>${currentTool.toolName}</h3>
+                <h3>${toolName}</h3>
                 <div class="integration-meta">
                     <span>🔗 Connected just now</span>
                     <span style="margin-left: 1rem;">⚙️ Ready to sync</span>
                 </div>
             </div>
             <div class="integration-actions">
-                <button class="btn btn-primary" onclick="promptImportData('${currentTool.toolName}')">
+                <button class="btn btn-primary" onclick="promptImportData('${toolName}')">
                     Import Data
                 </button>
                 <div class="status-badge" style="background: var(--accent-bg); color: var(--primary);">New</div>
@@ -219,8 +225,129 @@ function promptImportData(toolName) {
             </div>
         `;
 
+        // Make card clickable
+        card.style.cursor = 'pointer';
+        card.onclick = () => showIntegrationDetail(toolName);
+
         showNotification(`✓ Successfully imported 48 users and 127 events from ${toolName}`);
     }, 2000);
+}
+
+function showIntegrationDetail(toolName) {
+    // Hide main view and show detail view
+    document.getElementById('main-view').classList.add('hidden');
+
+    // Create detail view if it doesn't exist
+    let detailView = document.getElementById('integration-detail-view');
+    if (!detailView) {
+        detailView = document.createElement('div');
+        detailView.id = 'integration-detail-view';
+        document.querySelector('.container').appendChild(detailView);
+    }
+
+    detailView.classList.remove('hidden');
+    detailView.innerHTML = `
+        <button class="btn btn-secondary" onclick="backToDashboard()" style="margin-bottom: 1.5rem;">
+            ← Back to Dashboard
+        </button>
+
+        <div style="display: flex; align-items: center; gap: 1.5rem; margin-bottom: 2rem;">
+            <div class="integration-icon" style="width: 72px; height: 72px; font-size: 2.5rem; background: var(--accent-bg); color: var(--primary);">◆</div>
+            <div>
+                <h1 style="margin-bottom: 0.5rem;">${toolName}</h1>
+                <div style="color: var(--text-secondary);">
+                    <span>🔗 Connected and syncing</span>
+                    <span style="margin-left: 1rem;">📅 Last synced 2 minutes ago</span>
+                </div>
+            </div>
+        </div>
+
+        <!-- Metrics -->
+        <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 1rem; margin-bottom: 2rem;">
+            <div class="metric-card">
+                <div class="metric-label">Total Users</div>
+                <div class="metric-value">48</div>
+            </div>
+            <div class="metric-card">
+                <div class="metric-label">Active Users</div>
+                <div class="metric-value" style="color: var(--success);">43</div>
+            </div>
+            <div class="metric-card">
+                <div class="metric-label">Inactive (90+ days)</div>
+                <div class="metric-value" style="color: var(--warning);">5</div>
+            </div>
+            <div class="metric-card">
+                <div class="metric-label">Cost per User</div>
+                <div class="metric-value">$8/mo</div>
+            </div>
+            <div class="metric-card">
+                <div class="metric-label">Total Monthly Cost</div>
+                <div class="metric-value">$384</div>
+            </div>
+            <div class="metric-card">
+                <div class="metric-label">Potential Savings</div>
+                <div class="metric-value" style="color: var(--success);">$40/mo</div>
+            </div>
+        </div>
+
+        <!-- Cost Savings Breakdown -->
+        <div style="background: linear-gradient(135deg, var(--accent-bg), #fff); border: 1px solid var(--primary); border-radius: 12px; padding: 2rem; margin-bottom: 2rem;">
+            <h2 style="margin-bottom: 1rem;">💰 Cost Optimization Opportunities</h2>
+            <div style="display: flex; flex-direction: column; gap: 1rem;">
+                <div style="display: flex; justify-content: space-between; padding: 1rem; background: var(--surface); border-radius: 8px;">
+                    <div>
+                        <strong>Inactive Users</strong>
+                        <div style="color: var(--text-secondary); font-size: 0.875rem;">5 users haven't logged in for 90+ days</div>
+                    </div>
+                    <div style="text-align: right;">
+                        <div style="font-size: 1.25rem; font-weight: 600; color: var(--success);">$40/mo</div>
+                        <button class="btn btn-primary btn-sm">Deactivate All</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Inactive Users List -->
+        <h2 style="margin-bottom: 1rem;">⏱️ Inactive Users (90+ days)</h2>
+        <div class="table-container">
+            <table>
+                <thead>
+                    <tr>
+                        <th>User</th>
+                        <th>Email</th>
+                        <th>Last Active</th>
+                        <th>Cost</th>
+                        <th>Action</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    ${[
+                        { name: 'Emily Rodriguez', email: 'emily.r@company.com', days: 94 },
+                        { name: 'David Kim', email: 'd.kim@company.com', days: 120 },
+                        { name: 'Rachel Patel', email: 'r.patel@company.com', days: 103 },
+                        { name: 'Alex Chen', email: 'alex.c@company.com', days: 91 },
+                        { name: 'Jordan Taylor', email: 'j.taylor@company.com', days: 156 }
+                    ].map(user => `
+                        <tr>
+                            <td><strong>${user.name}</strong></td>
+                            <td style="color: var(--text-secondary);">${user.email}</td>
+                            <td style="color: var(--warning);">${user.days} days ago</td>
+                            <td style="font-family: 'JetBrains Mono', monospace;">$8/mo</td>
+                            <td><button class="btn btn-secondary btn-sm">Deactivate</button></td>
+                        </tr>
+                    `).join('')}
+                </tbody>
+            </table>
+        </div>
+    `;
+}
+
+function backToDashboard() {
+    document.getElementById('main-view').classList.remove('hidden');
+    const detailView = document.getElementById('integration-detail-view');
+    if (detailView) {
+        detailView.classList.add('hidden');
+    }
 }
 
 function showNotification(message) {
