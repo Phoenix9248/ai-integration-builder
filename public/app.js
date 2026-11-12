@@ -5,7 +5,11 @@ let generatedCode = null;
 
 // Load on page load
 document.addEventListener('DOMContentLoaded', () => {
-    loadIntegrations();
+    // Initialize with empty message
+    const list = document.getElementById('integrations-list');
+    if (!list.innerHTML || list.innerHTML.trim() === '') {
+        list.innerHTML = '<p style="text-align: center; color: var(--text-secondary); padding: 3rem;">No integrations yet. Add your first one!</p>';
+    }
 });
 
 async function loadIntegrations() {
@@ -182,7 +186,10 @@ function showDashboardWithNewIntegration() {
         </div>
     `;
 
-    if (integrationsList.innerHTML.includes('No integrations yet')) {
+    // Clear "no integrations" message if present
+    if (integrationsList.innerHTML.includes('No integrations yet') ||
+        integrationsList.innerHTML.includes('no integrations yet') ||
+        integrationsList.innerHTML.trim() === '') {
         integrationsList.innerHTML = newIntegrationCard;
     } else {
         integrationsList.insertAdjacentHTML('afterbegin', newIntegrationCard);
@@ -463,7 +470,7 @@ function OLD_connectIntegration() {
 
 function completeIntegration() {
     hideAddIntegration();
-    loadIntegrations();
+    // Don't reload integrations - they're already on the dashboard
 }
 
 function prevStep() {
