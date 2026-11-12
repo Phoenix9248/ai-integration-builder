@@ -15,34 +15,16 @@
 
         <div id="main-view">
             <h1>Build Integrations with AI</h1>
-            <p class="subtitle">Connect any SaaS tool by pointing to its API documentation</p>
+            <p class="subtitle">Connect any SaaS tool by pointing to its API documentation<br>
+            <small style="color: var(--primary);">✨ Powered by Ollama - runs locally, 100% free, no API keys needed!</small></p>
 
-            <div id="setup-section" class="setup-box">
-                <h3>Setup</h3>
-                <p>To use this prototype, you need a Hugging Face API key (free tier available)</p>
-                <div class="form-group">
-                    <label class="form-label">Your Hugging Face API Key</label>
-                    <input type="password" id="hf-token" class="form-input" placeholder="gsk_...">
-                    <div class="form-help">
-                        Get your free key at <a href="https://console.groq.com/keys" target="_blank">console.groq.com/keys</a>
-                        (stored in browser only, not on server)
-                    </div>
-                </div>
-                <button class="btn btn-primary" onclick="saveHfToken()">Save & Continue</button>
+            <div class="cta-section">
+                <button class="btn btn-primary btn-large" onclick="showAddIntegration()">
+                    + Add New Integration
+                </button>
             </div>
 
-            <div id="app-section" class="hidden">
-                <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 2rem;">
-                    <div></div>
-                    <button class="btn btn-secondary btn-sm" onclick="clearHfToken()">Change API Key</button>
-                </div>
-                <div class="cta-section">
-                    <button class="btn btn-primary btn-large" onclick="showAddIntegration()">
-                        + Add New Integration
-                    </button>
-                </div>
-                <div id="integrations-list" class="integrations-grid"></div>
-            </div>
+            <div id="integrations-list" class="integrations-grid"></div>
         </div>
 
         <!-- Add Integration Modal -->

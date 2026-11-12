@@ -1,31 +1,24 @@
 const axios = require('axios');
 
-const HF_API_URL = 'https://api-inference.huggingface.co/models/meta-llama/Llama-3.2-3B-Instruct';
+const OLLAMA_URL = 'http://localhost:11434/api/generate';
+const MODEL = 'qwen2.5-coder:7b';
 
-async function callHuggingFace(prompt, apiKey) {
-  const response = await axios.post(
-    HF_API_URL,
-    {
-      inputs: prompt,
-      parameters: {
-        max_new_tokens: 2000,
-        temperature: 0.3,
-        return_full_text: false
-      }
-    },
-    {
-      headers: {
-        'Authorization': `Bearer ${apiKey}`,
-        'Content-Type': 'application/json'
-      }
+async function callOllama(prompt) {
+  const response = await axios.post(OLLAMA_URL, {
+    model: MODEL,
+    prompt: prompt,
+    stream: false,
+    options: {
+      temperature: 0.3,
+      num_predict: 2000
     }
-  );
+  });
 
-  if (response.data && response.data[0] && response.data[0].generated_text) {
-    return response.data[0].generated_text;
+  if (response.data && response.data.response) {
+    return response.data.response;
   }
 
-  throw new Error('Invalid response from Hugging Face API');
+  throw new Error('Invalid response from Ollama');
 }
 
 async function fetchAPIDoc(url) {
@@ -43,7 +36,7 @@ async function fetchAPIDoc(url) {
   }
 }
 
-async function analyzeAPI(toolName, apiDocsUrl, apiKey) {
+async function analyzeAPI(toolName, apiDocsUrl, apiKey = null) {
   console.log(`Fetching API docs from: ${apiDocsUrl}`);
 
   let apiDocContent;
@@ -72,7 +65,7 @@ Extract and return ONLY a valid JSON object (no markdown, no extra text) with th
 
 Return only the JSON object, nothing else.`;
 
-  const responseText = await callHuggingFace(prompt, apiKey);
+  const responseText = await callOllama(prompt);
 
   // Extract JSON from response
   let jsonMatch = responseText.match(/\{[\s\S]*\}/);
@@ -98,7 +91,7 @@ Return only the JSON object, nothing else.`;
   return analysis;
 }
 
-async function generateIntegrationCode(toolName, analysis, apiKey) {
+async function generateIntegrationCode(toolName, analysis, apiKey = null) {
   const prompt = `Generate a complete JavaScript integration class for ${toolName}.
 
 API Analysis:
@@ -149,7 +142,7 @@ class ${toolName}Integration {
 
 module.exports = ${toolName}Integration;`;
 
-  let code = await callHuggingFace(prompt, apiKey);
+  let code = await callOllama(prompt);
 
   // Clean up the code
   code = code.replace(/```javascript\n?/g, '').replace(/```\n?/g, '');

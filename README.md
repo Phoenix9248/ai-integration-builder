@@ -4,10 +4,11 @@ AI-powered SaaS integration builder that automatically generates integration cod
 
 ## Features
 
-- 🤖 **AI-Powered**: Uses Hugging Face AI to read and understand API documentation
+- 🤖 **AI-Powered**: Uses Ollama (local LLM) to read and understand API documentation
 - 🔧 **Auto-Generate**: Automatically generates integration code
 - 🚀 **Self-Serve**: Users can add any integration themselves
 - 📊 **Live Testing**: Tests generated integrations with real APIs
+- 💯 **100% Free**: Runs locally, no API keys or internet required!
 
 ## How It Works
 
@@ -22,23 +23,28 @@ AI-powered SaaS integration builder that automatically generates integration cod
 
 ## Setup
 
-1. Install dependencies:
+1. **Install Ollama** (if not already installed):
+   - Mac/Linux: `curl -fsSL https://ollama.com/install.sh | sh`
+   - Or download from: https://ollama.com/download
+
+2. **Pull the AI model**:
+   ```bash
+   ollama pull qwen2.5-coder:7b
+   ```
+
+3. **Install dependencies**:
    ```bash
    npm install
    ```
 
-2. Start the server:
+4. **Start the server**:
    ```bash
    npm start
    ```
 
-3. Open browser: http://localhost:3000
+5. **Open browser**: http://localhost:3000
 
-4. Enter your Hugging Face token:
-   - Get a free token at https://huggingface.co/settings/tokens
-   - 100% free, no credit card required!
-   - Token is stored in browser only (not on server)
-   - Required to use AI features
+**That's it!** No API keys, no sign-ups, 100% local and free.
 
 ## Usage
 
@@ -63,8 +69,9 @@ AI-powered SaaS integration builder that automatically generates integration cod
 ## Tech Stack
 
 - **Backend**: Node.js + Express
-- **AI**: Hugging Face (Llama 3.3 70B)
+- **AI**: Ollama + Qwen 2.5 Coder (7B) - runs locally!
 - **Frontend**: Vanilla JavaScript + CSS
+- **Zero external dependencies** - works offline!
 
 ## Project Structure
 

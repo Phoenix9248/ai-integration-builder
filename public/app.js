@@ -2,48 +2,11 @@ let currentStep = 1;
 let currentTool = {};
 let analysis = null;
 let generatedCode = null;
-let hfToken = null;
 
 // Load on page load
 document.addEventListener('DOMContentLoaded', () => {
-    checkHfToken();
+    loadIntegrations();
 });
-
-function checkHfToken() {
-    hfToken = localStorage.getItem('hfToken');
-    if (hfToken) {
-        document.getElementById('setup-section').classList.add('hidden');
-        document.getElementById('app-section').classList.remove('hidden');
-        loadIntegrations();
-    } else {
-        document.getElementById('setup-section').classList.remove('hidden');
-        document.getElementById('app-section').classList.add('hidden');
-    }
-}
-
-function saveHfToken() {
-    const key = document.getElementById('hf-token').value.trim();
-    if (!key) {
-        alert('Please enter your Hugging Face token');
-        return;
-    }
-    if (!key.startsWith('hf_')) {
-        if (!confirm('Warning: Hugging Face tokens usually start with "hf_". Are you sure this is correct?')) {
-            return;
-        }
-    }
-    localStorage.setItem('hfToken', key);
-    hfToken = key;
-    checkHfToken();
-}
-
-function clearHfToken() {
-    if (confirm('Are you sure you want to remove your API key? You\'ll need to enter it again.')) {
-        localStorage.removeItem('hfToken');
-        hfToken = null;
-        checkHfToken();
-    }
-}
 
 async function loadIntegrations() {
     try {
@@ -134,8 +97,7 @@ async function analyzeAPI() {
         const response = await fetch('/api/analyze', {
             method: 'POST',
             headers: {
-                'Content-Type': 'application/json',
-                'X-HF-Token': hfToken
+                'Content-Type': 'application/json'
             },
             body: JSON.stringify({ toolName, apiDocsUrl })
         });
@@ -182,8 +144,7 @@ async function generateCode() {
         const response = await fetch('/api/generate', {
             method: 'POST',
             headers: {
-                'Content-Type': 'application/json',
-                'X-HF-Token': hfToken
+                'Content-Type': 'application/json'
             },
             body: JSON.stringify({
                 toolName: currentTool.toolName,
