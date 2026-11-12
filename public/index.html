@@ -1,0 +1,122 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>AI Integration Builder</title>
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=JetBrains+Mono:wght@500;600&display=swap">
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+    <div class="container">
+        <div class="header">
+            <div class="logo">AI Integration<span> Builder</span></div>
+        </div>
+
+        <div id="main-view">
+            <h1>Build Integrations with AI</h1>
+            <p class="subtitle">Connect any SaaS tool by pointing to its API documentation</p>
+
+            <div class="cta-section">
+                <button class="btn btn-primary btn-large" onclick="showAddIntegration()">
+                    + Add New Integration
+                </button>
+            </div>
+
+            <div id="integrations-list" class="integrations-grid"></div>
+        </div>
+
+        <!-- Add Integration Modal -->
+        <div id="add-modal" class="modal-overlay hidden">
+            <div class="modal">
+                <div class="modal-header">
+                    <h2>Add New Integration</h2>
+                    <button class="close-btn" onclick="hideAddIntegration()">&times;</button>
+                </div>
+                <div class="modal-body">
+                    <div class="progress-steps">
+                        <div class="progress-step active" data-step="1">
+                            <div class="step-number">1</div>
+                            <div class="step-label">Tool Info</div>
+                        </div>
+                        <div class="progress-step" data-step="2">
+                            <div class="step-number">2</div>
+                            <div class="step-label">AI Analysis</div>
+                        </div>
+                        <div class="progress-step" data-step="3">
+                            <div class="step-number">3</div>
+                            <div class="step-label">Generate Code</div>
+                        </div>
+                        <div class="progress-step" data-step="4">
+                            <div class="step-number">4</div>
+                            <div class="step-label">Connect</div>
+                        </div>
+                    </div>
+
+                    <!-- Step 1: Tool Info -->
+                    <div id="step-1" class="step-content">
+                        <div class="form-group">
+                            <label class="form-label">Tool Name</label>
+                            <input type="text" id="tool-name" class="form-input" placeholder="e.g., Calendly, Linear, Notion">
+                        </div>
+                        <div class="form-group">
+                            <label class="form-label">API Documentation URL</label>
+                            <input type="url" id="api-docs-url" class="form-input" placeholder="https://developer.calendly.com/api-docs">
+                            <div class="form-help">Link to the API documentation or reference page</div>
+                        </div>
+                        <div class="modal-actions">
+                            <button class="btn btn-secondary" onclick="hideAddIntegration()">Cancel</button>
+                            <button class="btn btn-primary" onclick="analyzeAPI()">Analyze API</button>
+                        </div>
+                    </div>
+
+                    <!-- Step 2: AI Analysis -->
+                    <div id="step-2" class="step-content hidden">
+                        <div id="analysis-status" class="status-box">
+                            <div class="loader"></div>
+                            <p>AI is reading the API documentation...</p>
+                        </div>
+                        <div id="analysis-result" class="hidden"></div>
+                    </div>
+
+                    <!-- Step 3: Code Generation -->
+                    <div id="step-3" class="step-content hidden">
+                        <div id="generation-status" class="status-box">
+                            <div class="loader"></div>
+                            <p>Generating integration code...</p>
+                        </div>
+                        <div id="generation-result" class="hidden"></div>
+                    </div>
+
+                    <!-- Step 4: Connect -->
+                    <div id="step-4" class="step-content hidden">
+                        <div class="form-group">
+                            <label class="form-label">API Key / Access Token</label>
+                            <input type="password" id="api-key" class="form-input" placeholder="Enter your API key">
+                            <div class="form-help">This will be used to connect to <span id="tool-name-display"></span></div>
+                        </div>
+                        <div class="modal-actions">
+                            <button class="btn btn-secondary" onclick="prevStep()">Back</button>
+                            <button class="btn btn-primary" onclick="connectIntegration()">Connect & Test</button>
+                        </div>
+                    </div>
+
+                    <!-- Step 5: Complete -->
+                    <div id="step-5" class="step-content hidden">
+                        <div class="success-box">
+                            <div class="success-icon">✓</div>
+                            <h3>Integration connected!</h3>
+                            <p id="integration-summary"></p>
+                        </div>
+                        <div class="modal-actions">
+                            <button class="btn btn-primary" onclick="completeIntegration()">Done</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script src="app.js"></script>
+</body>
+</html>
