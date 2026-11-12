@@ -177,14 +177,62 @@ async function connectIntegration() {
         updateStepDisplay();
 
         if (testData.success && testData.result.authenticated) {
+            const isDemoData = testData.result.demo === true;
+            const demoNotice = isDemoData ? '<div style="background: var(--accent-bg); color: var(--primary); padding: 0.75rem; border-radius: 8px; margin-bottom: 1rem; font-size: 0.875rem;">✨ Demo Mode: Showing sample data (real API connection failed or invalid key)</div>' : '';
+
             document.getElementById('integration-summary').innerHTML = `
-                Successfully connected to ${currentTool.toolName}!<br>
-                Found ${testData.result.userCount} users and ${testData.result.eventCount} events.
+                ${demoNotice}
+                <h3 style="margin-bottom: 1rem;">✓ ${currentTool.toolName} Connected!</h3>
+
+                <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 1rem; margin-bottom: 1.5rem;">
+                    <div style="background: var(--accent-bg); padding: 1rem; border-radius: 8px;">
+                        <div style="color: var(--text-secondary); font-size: 0.875rem;">Users</div>
+                        <div style="font-size: 2rem; font-weight: 600; color: var(--primary);">${testData.result.userCount}</div>
+                    </div>
+                    <div style="background: var(--accent-bg); padding: 1rem; border-radius: 8px;">
+                        <div style="color: var(--text-secondary); font-size: 0.875rem;">Events</div>
+                        <div style="font-size: 2rem; font-weight: 600; color: var(--primary);">${testData.result.eventCount}</div>
+                    </div>
+                </div>
+
+                <details open style="margin-top: 1rem;">
+                    <summary style="cursor: pointer; font-weight: 600; margin-bottom: 0.5rem;">Recent Users</summary>
+                    <div style="background: var(--bg); border-radius: 8px; padding: 0.5rem; max-height: 200px; overflow-y: auto;">
+                        ${testData.result.users && testData.result.users.length > 0 ?
+                            testData.result.users.map(u => `
+                                <div style="padding: 0.5rem; border-bottom: 1px solid var(--border);">
+                                    <strong>${u.name || u.email || u.id}</strong>
+                                    ${u.email ? `<br><small style="color: var(--text-secondary);">${u.email}</small>` : ''}
+                                    ${u.role ? `<span style="margin-left: 0.5rem; padding: 0.25rem 0.5rem; background: var(--accent-bg); color: var(--primary); border-radius: 4px; font-size: 0.75rem;">${u.role}</span>` : ''}
+                                </div>
+                            `).join('') :
+                            '<p style="color: var(--text-secondary); padding: 1rem;">No users found</p>'
+                        }
+                    </div>
+                </details>
+
+                <details style="margin-top: 1rem;">
+                    <summary style="cursor: pointer; font-weight: 600; margin-bottom: 0.5rem;">Recent Events</summary>
+                    <div style="background: var(--bg); border-radius: 8px; padding: 0.5rem; max-height: 200px; overflow-y: auto;">
+                        ${testData.result.events && testData.result.events.length > 0 ?
+                            testData.result.events.map(e => `
+                                <div style="padding: 0.5rem; border-bottom: 1px solid var(--border);">
+                                    <strong>${e.title || e.name || e.id}</strong>
+                                    ${e.date ? `<br><small style="color: var(--text-secondary);">📅 ${e.date}</small>` : ''}
+                                    ${e.attendees ? `<small style="color: var(--text-secondary); margin-left: 1rem;">👥 ${e.attendees} attendees</small>` : ''}
+                                </div>
+                            `).join('') :
+                            '<p style="color: var(--text-secondary); padding: 1rem;">No events found</p>'
+                        }
+                    </div>
+                </details>
             `;
         } else {
             document.getElementById('integration-summary').innerHTML = `
-                Integration saved, but connection test had issues:<br>
-                ${testData.result.error || 'Unknown error'}
+                <div style="color: var(--warning); text-align: center;">
+                    ⚠️ Connection test had issues<br>
+                    <small>${testData.result.error || 'Unknown error'}</small>
+                </div>
             `;
         }
     } catch (error) {
