@@ -14,14 +14,61 @@
         </div>
 
         <div id="main-view">
-            <h1>Build Integrations with AI</h1>
-            <p class="subtitle">Connect any SaaS tool by pointing to its API documentation<br>
-            <small style="color: var(--primary);">✨ Powered by Ollama - runs locally, 100% free, no API keys needed!</small></p>
+            <div style="position: relative; background: linear-gradient(135deg, rgba(102, 126, 234, 0.05), rgba(167, 139, 250, 0.05)); border-radius: 24px; padding: 4rem 3rem; margin-bottom: 3rem; overflow: hidden; border: 1px solid rgba(102, 126, 234, 0.1);">
+                <!-- Decorative elements -->
+                <div style="position: absolute; top: -50px; right: -50px; width: 200px; height: 200px; background: radial-gradient(circle, rgba(167, 139, 250, 0.15), transparent); border-radius: 50%;"></div>
+                <div style="position: absolute; bottom: -30px; left: -30px; width: 150px; height: 150px; background: radial-gradient(circle, rgba(61, 213, 152, 0.1), transparent); border-radius: 50%;"></div>
 
-            <div class="cta-section">
-                <button class="btn btn-primary btn-large" onclick="showAddIntegration()">
-                    + Add New Integration
+                <div style="position: relative; z-index: 1;">
+                    <div style="display: inline-block; background: linear-gradient(135deg, var(--gradient-start), var(--gradient-end)); padding: 0.5rem 1.25rem; border-radius: 30px; margin-bottom: 1.5rem; box-shadow: 0 4px 16px rgba(102, 126, 234, 0.2);">
+                        <span style="color: white; font-size: 0.875rem; font-weight: 600;">🚀 AI-Powered Integration Builder</span>
+                    </div>
+                    <h1 style="margin-bottom: 1rem;">Build Integrations with AI</h1>
+                    <p class="subtitle" style="max-width: 600px; margin-bottom: 2rem;">
+                        Connect any SaaS tool by pointing to its API documentation. Our AI analyzes, generates code, and integrates automatically.
+                    </p>
+                    <div style="display: flex; align-items: center; gap: 2rem; flex-wrap: wrap;">
+                        <div style="display: flex; align-items: center; gap: 0.75rem;">
+                            <div style="width: 36px; height: 36px; background: linear-gradient(135deg, #3DD598, #3BB581); border-radius: 10px; display: flex; align-items: center; justify-content: center; color: white; font-size: 1.25rem;">✓</div>
+                            <span style="color: var(--text-secondary); font-size: 0.9rem;">100% Free & Local</span>
+                        </div>
+                        <div style="display: flex; align-items: center; gap: 0.75rem;">
+                            <div style="width: 36px; height: 36px; background: linear-gradient(135deg, #667EEA, #764BA2); border-radius: 10px; display: flex; align-items: center; justify-content: center; color: white; font-size: 1.25rem;">⚡</div>
+                            <span style="color: var(--text-secondary); font-size: 0.9rem;">No API Keys Needed</span>
+                        </div>
+                        <div style="display: flex; align-items: center; gap: 0.75rem;">
+                            <div style="width: 36px; height: 36px; background: linear-gradient(135deg, #FF9A6C, #FF7A59); border-radius: 10px; display: flex; align-items: center; justify-content: center; color: white; font-size: 1.25rem;">🤖</div>
+                            <span style="color: var(--text-secondary); font-size: 0.9rem;">Powered by Ollama</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="cta-section" style="display: flex; justify-content: center; gap: 1rem; align-items: center; margin: 2.5rem 0;">
+                <button class="btn btn-primary btn-large" onclick="showAddIntegration()" style="display: inline-flex; align-items: center; gap: 0.75rem; padding: 1rem 2rem;">
+                    <span style="font-size: 1.25rem;">+</span>
+                    <span>Add New Integration</span>
                 </button>
+                <div style="color: var(--text-secondary); font-size: 0.875rem;">
+                    or browse <span style="color: var(--primary); font-weight: 600; cursor: pointer;">500+ integrations</span>
+                </div>
+            </div>
+
+            <div style="margin: 3rem 0 1.5rem;">
+                <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 1rem;">
+                    <div>
+                        <h2 style="font-size: 1.5rem; margin-bottom: 0.25rem;">Your Integrations</h2>
+                        <p style="color: var(--text-secondary); font-size: 0.9rem;">Manage and optimize your SaaS subscriptions</p>
+                    </div>
+                    <div style="display: flex; gap: 0.75rem; align-items: center;">
+                        <div style="background: rgba(102, 126, 234, 0.1); padding: 0.5rem 1rem; border-radius: 20px; font-size: 0.875rem; font-weight: 600; color: var(--primary);">
+                            3 Active
+                        </div>
+                        <div style="background: rgba(61, 213, 152, 0.1); padding: 0.5rem 1rem; border-radius: 20px; font-size: 0.875rem; font-weight: 600; color: var(--success);">
+                            💰 $1,695/mo savings
+                        </div>
+                    </div>
+                </div>
             </div>
 
             <div id="integrations-list" class="integrations-grid"></div>
@@ -38,32 +85,62 @@
                     <div class="progress-steps">
                         <div class="progress-step active" data-step="1">
                             <div class="step-number">1</div>
-                            <div class="step-label">Tool Info</div>
+                            <div class="step-label">Search</div>
                         </div>
                         <div class="progress-step" data-step="2">
                             <div class="step-number">2</div>
-                            <div class="step-label">AI Processing</div>
+                            <div class="step-label">Generate</div>
                         </div>
                         <div class="progress-step" data-step="3">
                             <div class="step-number">3</div>
-                            <div class="step-label">Connect</div>
+                            <div class="step-label">Test</div>
+                        </div>
+                        <div class="progress-step" data-step="4">
+                            <div class="step-number">4</div>
+                            <div class="step-label">Go Live</div>
                         </div>
                     </div>
 
-                    <!-- Step 1: Tool Info -->
+                    <!-- Step 1: Search Tool -->
                     <div id="step-1" class="step-content">
                         <div class="form-group">
-                            <label class="form-label">Tool Name</label>
-                            <input type="text" id="tool-name" class="form-input" placeholder="e.g., Calendly, Linear, Notion">
+                            <label class="form-label">Search for a tool</label>
+                            <input type="text" id="tool-search" class="form-input" placeholder="Search (e.g., Calendly, Linear, Salesforce...)" oninput="searchTool(this.value)">
+                            <div class="form-help">Search from 500+ available integrations</div>
+                        </div>
+
+                        <!-- Search Results -->
+                        <div id="search-results" style="display: none; max-height: 300px; overflow-y: auto; border: 1px solid var(--border); border-radius: 8px; margin-top: 1rem;"></div>
+
+                        <!-- Not Found Message -->
+                        <div id="tool-not-found" style="display: none; background: var(--accent-bg); border: 1px solid var(--primary); border-radius: 8px; padding: 1.5rem; margin-top: 1rem; text-align: center;">
+                            <h3 style="margin-bottom: 0.5rem;">🤖 Tool not found in our library</h3>
+                            <p style="color: var(--text-secondary); margin-bottom: 1rem;">
+                                No worries! We'll use AI to create this integration in minutes.
+                            </p>
+                            <button class="btn btn-primary" onclick="proceedWithAIGeneration()">
+                                Create New Integration with AI
+                            </button>
+                        </div>
+
+                        <div class="modal-actions">
+                            <button class="btn btn-secondary" onclick="hideAddIntegration()">Cancel</button>
+                        </div>
+                    </div>
+
+                    <!-- Step 1b: AI Generation (for new tools) -->
+                    <div id="step-1b" class="step-content hidden">
+                        <div style="background: var(--accent-bg); padding: 1rem; border-radius: 8px; margin-bottom: 1.5rem;">
+                            <strong id="ai-tool-name"></strong> is not in our library yet. Let's create it!
                         </div>
                         <div class="form-group">
                             <label class="form-label">API Documentation URL</label>
                             <input type="url" id="api-docs-url" class="form-input" placeholder="https://developer.calendly.com/api-docs">
-                            <div class="form-help">Link to the API documentation or reference page</div>
+                            <div class="form-help">Link to the API documentation</div>
                         </div>
                         <div class="modal-actions">
-                            <button class="btn btn-secondary" onclick="hideAddIntegration()">Cancel</button>
-                            <button class="btn btn-primary" onclick="analyzeAPI()">Analyze API</button>
+                            <button class="btn btn-secondary" onclick="currentStep = 1; updateStepDisplay()">Back</button>
+                            <button class="btn btn-primary" onclick="analyzeAPI()">Generate Integration</button>
                         </div>
                     </div>
 
@@ -75,30 +152,37 @@
                         </div>
                     </div>
 
-                    <!-- Step 3: Connect -->
+                    <!-- Step 3: Test Connection -->
                     <div id="step-3" class="step-content hidden">
+                        <div style="background: linear-gradient(135deg, rgba(255, 171, 0, 0.1), rgba(255, 154, 108, 0.1)); border: 1px solid rgba(255, 171, 0, 0.3); border-radius: 12px; padding: 1.25rem; margin-bottom: 1.5rem;">
+                            <div style="display: flex; align-items: start; gap: 0.75rem;">
+                                <div style="font-size: 1.5rem;">🧪</div>
+                                <div>
+                                    <div style="font-weight: 600; margin-bottom: 0.25rem;">Test Mode</div>
+                                    <div style="font-size: 0.875rem; color: var(--text-secondary);">
+                                        Test the connection with your API credentials before going live
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
                         <div class="form-group">
                             <label class="form-label">API Key / Access Token</label>
-                            <input type="password" id="api-key" class="form-input" placeholder="Enter your API key">
-                            <div class="form-help">This will be used to connect to <span id="tool-name-display"></span></div>
+                            <input type="password" id="api-key" class="form-input" placeholder="Enter your API key for testing">
+                            <div class="form-help">Your credentials are only used for testing and are not stored</div>
                         </div>
+
                         <div class="modal-actions">
                             <button class="btn btn-secondary" onclick="prevStep()">Back</button>
-                            <button class="btn btn-primary" onclick="connectIntegration()">Connect & Test</button>
+                            <button class="btn btn-primary" onclick="testConnection()">Test Connection</button>
                         </div>
                     </div>
 
-                    <!-- Step 4: Complete -->
+                    <!-- Step 4: Test Results & Go Live -->
                     <div id="step-4" class="step-content hidden">
-                        <div class="success-box">
-                            <div class="success-icon">✓</div>
-                            <h3>Integration connected!</h3>
-                            <p id="integration-summary"></p>
-                        </div>
-                        <div class="modal-actions">
-                            <button class="btn btn-primary" onclick="completeIntegration()">Done</button>
-                        </div>
+                        <div id="test-results"></div>
                     </div>
+
                 </div>
             </div>
         </div>
