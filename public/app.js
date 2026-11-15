@@ -28,7 +28,7 @@ function loadExistingIntegrations() {
     list.innerHTML = `
         <div class="integration-card" style="border-left: 4px solid #4A154B;">
             <div class="integration-icon" style="background: white; padding: 8px; box-shadow: 0 2px 8px rgba(0,0,0,0.1);">
-                <img src="logos/slack.svg" alt="Slack" style="width: 40px; height: 40px; display: block;">
+                <img src="public/logos/slack.svg" alt="Slack" style="width: 40px; height: 40px; display: block;">
             </div>
             <div class="integration-info">
                 <h3 style="color: #4A154B;">Slack</h3>
@@ -45,7 +45,7 @@ function loadExistingIntegrations() {
         </div>
         <div class="integration-card" style="border-left: 4px solid #0B5CFF;">
             <div class="integration-icon" style="background: white; padding: 8px; box-shadow: 0 2px 8px rgba(0,0,0,0.1);">
-                <img src="logos/zoom.svg" alt="Zoom" style="width: 40px; height: 40px; display: block;">
+                <img src="public/logos/zoom.svg" alt="Zoom" style="width: 40px; height: 40px; display: block;">
             </div>
             <div class="integration-info">
                 <h3 style="color: #0B5CFF;">Zoom</h3>
@@ -62,7 +62,7 @@ function loadExistingIntegrations() {
         </div>
         <div class="integration-card" style="border-left: 4px solid #4285F4;">
             <div class="integration-icon" style="background: white; padding: 8px; box-shadow: 0 2px 8px rgba(0,0,0,0.1);">
-                <img src="logos/google-workspace.svg" alt="Google Workspace" style="width: 40px; height: 40px; display: block;">
+                <img src="public/logos/google-workspace.svg" alt="Google Workspace" style="width: 40px; height: 40px; display: block;">
             </div>
             <div class="integration-info">
                 <h3 style="color: #4285F4;">Google Workspace</h3>
