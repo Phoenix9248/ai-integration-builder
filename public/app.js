@@ -288,17 +288,36 @@ async function analyzeAPI() {
             await new Promise(resolve => setTimeout(resolve, steps[i].duration));
         }
 
-        // DEMO MODE: Use mock data instead of real API calls
-        // In production, uncomment the real API calls below
+        // Get API base URL from config (Railway deployment or localhost)
+        const apiBaseUrl = window.API_BASE_URL || '';
 
-        // Mock successful analysis and generation
-        analysis = {
-            endpoints: ['GET /api/users', 'POST /api/events', 'GET /api/data'],
-            authType: 'OAuth 2.0',
-            dataModels: ['User', 'Event', 'Analytics']
-        };
+        // Real API calls to deployed backend
+        const analyzeResponse = await fetch(`${apiBaseUrl}/api/analyze`, {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify({ toolName, apiDocsUrl })
+        });
 
-        generatedCode = `// ${toolName} Integration Code (Demo)\n// This is a simulated integration\n\nclass ${toolName}Integration {\n  constructor(apiKey) {\n    this.apiKey = apiKey;\n  }\n\n  async connect() {\n    // Authentication logic\n    return { success: true };\n  }\n\n  async syncData() {\n    // Data sync logic\n    return { synced: true };\n  }\n}`;
+        const analyzeData = await analyzeResponse.json();
+
+        if (!analyzeData.success) {
+            throw new Error(analyzeData.error || 'Analysis failed');
+        }
+
+        analysis = analyzeData.analysis;
+
+        const generateResponse = await fetch(`${apiBaseUrl}/api/generate`, {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify({ toolName, analysis })
+        });
+
+        const generateData = await generateResponse.json();
+        if (!generateData.success) {
+            throw new Error(generateData.error || 'Code generation failed');
+        }
+
+        generatedCode = generateData.code;
 
         // Calculate confidence score (simulated AI evaluation)
         const confidenceScore = calculateConfidenceScore();
