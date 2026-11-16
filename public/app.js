@@ -255,6 +255,13 @@ async function analyzeAPI() {
     const statusBox = document.getElementById('ai-status');
     const statusText = document.getElementById('ai-status-text');
 
+    // Safety check - make sure elements exist
+    if (!statusBox || !statusText) {
+        console.error('Status elements not found');
+        alert('Error: Status display elements not found. Please refresh and try again.');
+        return;
+    }
+
     // Progress steps based on developer mode
     const customerSteps = [
         { text: '📖 Reading your API documentation...', duration: 2000 },
@@ -352,6 +359,12 @@ async function testConnection() {
 
     const resultsDiv = document.getElementById('test-results');
     const toolName = currentTool.toolName;
+
+    // Safety check
+    if (!resultsDiv) {
+        console.error('test-results element not found');
+        return;
+    }
 
     // Show testing progress
     resultsDiv.innerHTML = `
