@@ -288,36 +288,16 @@ async function analyzeAPI() {
             await new Promise(resolve => setTimeout(resolve, steps[i].duration));
         }
 
-        // Get API base URL from config (Railway deployment or localhost)
-        const apiBaseUrl = window.API_BASE_URL || '';
+        // DEMO MODE: Mock data for standalone demo (no backend needed)
+        // This simulates successful AI generation without requiring a server
 
-        // Real API calls to deployed backend
-        const analyzeResponse = await fetch(`${apiBaseUrl}/api/analyze`, {
-            method: 'POST',
-            headers: { 'Content-Type': 'application/json' },
-            body: JSON.stringify({ toolName, apiDocsUrl })
-        });
+        analysis = {
+            endpoints: ['GET /api/users', 'POST /api/events', 'GET /api/data'],
+            authType: 'OAuth 2.0',
+            dataModels: ['User', 'Event', 'Analytics']
+        };
 
-        const analyzeData = await analyzeResponse.json();
-
-        if (!analyzeData.success) {
-            throw new Error(analyzeData.error || 'Analysis failed');
-        }
-
-        analysis = analyzeData.analysis;
-
-        const generateResponse = await fetch(`${apiBaseUrl}/api/generate`, {
-            method: 'POST',
-            headers: { 'Content-Type': 'application/json' },
-            body: JSON.stringify({ toolName, analysis })
-        });
-
-        const generateData = await generateResponse.json();
-        if (!generateData.success) {
-            throw new Error(generateData.error || 'Code generation failed');
-        }
-
-        generatedCode = generateData.code;
+        generatedCode = `// ${toolName} Integration Code\n// AI-generated integration (Demo)\n\nclass ${toolName}Integration {\n  constructor(apiKey) {\n    this.apiKey = apiKey;\n    this.baseUrl = 'https://api.${toolName.toLowerCase()}.com';\n  }\n\n  async authenticate() {\n    // OAuth 2.0 authentication\n    return { success: true, token: 'demo_token' };\n  }\n\n  async fetchUsers() {\n    // Fetch users from API\n    return { users: [], total: 0 };\n  }\n\n  async syncData() {\n    // Sync data logic\n    return { synced: true, count: 0 };\n  }\n}`;
 
         // Calculate confidence score (simulated AI evaluation)
         const confidenceScore = calculateConfidenceScore();
