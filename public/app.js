@@ -24,6 +24,12 @@ function toggleDevMode() {
 function loadExistingIntegrations() {
     const list = document.getElementById('integrations-list');
 
+    // Safety check - make sure element exists
+    if (!list) {
+        console.error('integrations-list element not found');
+        return;
+    }
+
     // Add some pre-existing integrations with real brand logos
     list.innerHTML = `
         <div class="integration-card" style="border-left: 4px solid #4A154B;">
